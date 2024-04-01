@@ -61,9 +61,10 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (mov, i, arr) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  movs.forEach(function (mov, i, arr) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
      <div class="movements__row">
@@ -183,6 +184,13 @@ btnClose.addEventListener('click', function (e) {
     containerApp.style.opacity = 0;
   }
   inputCloseUsername.value = inputClosePin.value = '';
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -437,3 +445,38 @@ const overallBalance2 = accounts
 // console.log(overallBalance2);
 
 // sort
+const owner = ['jonas', 'gaya', 'ram'];
+console.log(owner.slice().sort());
+console.log(owner);
+// console.log(movements.sort());
+
+movements.sort((a, b) => {
+  if (a > b) return 1;
+  if (a < b) return -1;
+});
+
+// array from
+console.log(new Array(1, 2, 3, 4));
+
+const x = new Array(7);
+x.fill(9, 3);
+console.log(x);
+const b = new Array(1, 2, 3, 4, 5, 6);
+b.fill(23, 4, 5);
+console.log(b);
+
+const c = Array.from({ length: 7 }, () => 1);
+console.log(c);
+
+const d = Array.from({ length: 6 }, (_, i) => i + 1);
+console.log(d);
+
+labelBalance.addEventListener('click', function () {
+  const movementUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(movementUI);
+  const movementUI2 = [...document.querySelectorAll('.movements__value')];
+  console.log(movementUI2);
+});
