@@ -537,3 +537,19 @@ console.log(ownersEatTooLittle);
 console.log(`${ownersEatTooMuch.join(' and ')} dog eats too much`);
 
 // 5. Log to the console whether there is any dog eating EXACTLY the amount of food that is recommended (just true or false)
+console.log(dogs.some(dog => dog.curFood === dog.recFood));
+//6. Log to the console whether there is any dog eating an OKAY amount of food (just true or false)
+// Eating an okay amount means the dog's current food portion is within a range 10% above and 10% below the recommended portion
+
+const okayPortion = dog =>
+  0.9 * dog.recFood < dog.curFood && dog.curFood < 1.1 * dog.recFood;
+console.log(dogs.some(okayPortion));
+
+// 7. Create an array containing the dogs that are eating an OKAY amount of food (try to reuse the condition used in 6.)
+console.log(dogs.filter(okayPortion));
+
+// 8.8. Create a shallow copy of the dogs array and sort it by recommended food portion in an ascending order
+//(keep in mind that the portions are inside the array's objects)
+
+const dogSorted = dogs.slice().sort((a, b) => a.recFood - b.recFood);
+console.log(dogSorted.map(arr => arr.recFood));
