@@ -433,7 +433,7 @@ const accountMovements = accounts.map(acc => acc.movements);
 // console.log(accountMovements);
 
 const totalMovements = accountMovements.flat();
-console.log(totalMovements);
+// console.log(totalMovements);
 const overallBalance = totalMovements.reduce((acc, val) => acc + val, 0);
 // console.log(overallBalance);
 
@@ -446,8 +446,8 @@ const overallBalance2 = accounts
 
 // sort
 const owner = ['jonas', 'gaya', 'ram'];
-console.log(owner.slice().sort());
-console.log(owner);
+// console.log(owner.slice().sort());
+// console.log(owner);
 // console.log(movements.sort());
 
 movements.sort((a, b) => {
@@ -456,20 +456,20 @@ movements.sort((a, b) => {
 });
 
 // array from
-console.log(new Array(1, 2, 3, 4));
+// console.log(new Array(1, 2, 3, 4));
 
 const x = new Array(7);
 x.fill(9, 3);
-console.log(x);
+// console.log(x);
 const b = new Array(1, 2, 3, 4, 5, 6);
 b.fill(23, 4, 5);
-console.log(b);
+// console.log(b);
 
 const c = Array.from({ length: 7 }, () => 1);
-console.log(c);
+// console.log(c);
 
 const d = Array.from({ length: 6 }, (_, i) => i + 1);
-console.log(d);
+// console.log(d);
 
 labelBalance.addEventListener('click', function () {
   const movementUI = Array.from(
@@ -478,5 +478,62 @@ labelBalance.addEventListener('click', function () {
   );
   console.log(movementUI);
   const movementUI2 = [...document.querySelectorAll('.movements__value')];
-  console.log(movementUI2);
+  // console.log(movementUI2);
 });
+
+///////////////////////////////////////
+// Coding Challenge #4
+
+/* 
+Julia and Kate are still studying dogs, and this time they are studying if dogs are eating too much or too little.
+Eating too much means the dog's current food portion is larger than the recommended portion, and eating too little is the opposite.
+Eating an okay amount means the dog's current food portion is within a range 10% above and 10% below the recommended portion (see hint).
+
+1. Loop over the array containing dog objects, and for each dog, calculate the recommended food portion and add it to the
+ object as a new property. Do NOT create a new array, simply loop over the array. Forumla: recommendedFood = weight ** 0.75 * 28. 
+ (The result is in grams of food, and the weight needs to be in kg)
+2. Find Sarah's dog and log to the console whether it's eating too much or too little.
+ HINT: Some dogs have multiple owners, so you first need to find Sarah in the owners array, and so this one is a bit tricky (on purpose) 🤓
+3. Create an array containing all owners of dogs who eat too much ('ownersEatTooMuch') and an array with all owners of dogs who 
+eat too little ('ownersEatTooLittle').
+
+
+HINT 1: Use many different tools to solve these challenges, you can use the summary lecture to choose between them 😉
+HINT 2: Being within a range 10% above and below the recommended portion means: 
+current > (recommended * 0.90) && current < (recommended * 1.10). Basically, the current portion should be between 90% and 110% of the
+ recommended portion.
+
+*/
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// 1.
+
+dogs.forEach(dog => (dog.recFood = Math.trunc(dog.weight ** 0.75 * 28)));
+console.log(dogs);
+// 2.
+const dogS = dogs.find(dog => dog.owners.includes('Sarah'));
+if (dogS.curFood > dogS.recFood) {
+  console.log(`eating too much`);
+}
+console.log(dogS);
+
+//3
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recFood)
+  .flatMap(dog => dog.owners);
+console.log(ownersEatTooMuch);
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recFood)
+  .flatMap(dog => dog.owners);
+console.log(ownersEatTooLittle);
+
+// 4. Log a string to the console for each array created in 3., like this: "Matilda and Alice and Bob's dogs eat too much!"
+//and "Sarah and John and Michael's dogs eat too little!"
+console.log(`${ownersEatTooMuch.join(' and ')} dog eats too much`);
+
+// 5. Log to the console whether there is any dog eating EXACTLY the amount of food that is recommended (just true or false)
